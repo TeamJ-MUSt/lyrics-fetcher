@@ -15,12 +15,22 @@ cd lyrics-fetcher
 pip install -r requirements.txt
 ```
 3. Run `fetch.py` with arguments
-```
-// Single query
-python fetch.py BETELGEUSE result.txt
 
-// Multiple queries from file
-python fetch.py queries.txt results.txt
+usage: `fetch.py [-h] [--out OUT] [--verbose] query`
+
+positional arguments:  
+- `query`: Search query string, or Input file path of search queries.  
+
+optional arguments:  
+- `-h`, `--help`: Show help message  
+- `--out OUT`: Output file path. Outputs to standard output if not specified.  
+- `--verbose`: Prints current queries and progress. Defaults to `False`
+```
+// Single query, output to file, log process
+python fetch.py BETELGEUSE --out result.txt --verbose
+
+// Multiple queries, output to standard output
+python fetch.py queries.txt
 ```
 
 ## About

@@ -11,38 +11,42 @@ def is_file(string):
     _, file_extension = os.path.splitext(string)
     return bool(file_extension)
 
-def get_query_result(search_query):
+def get_query_result(search_query, verbose = False):
     query = search_query.strip()
-    print("Querying:", query)
+    if verbose:
+        print("Querying:", query)
     result = bugs.find_lyrics(query)
     result['lyrics'] = utils.remove_korean_lines(result['lyrics'])
     return result
 
 def main():
     parser = argparse.ArgumentParser(description='Fetch lyrics from bugs')
-    parser.add_argument('query', help='Search query string, or Input file path of search queries')
-    parser.add_argument('out', help='Output file path')
+    parser.add_argument('query', help='Search query string, or Input file path of search queries.')
+    parser.add_argument('--out', help='Output file path. Outputs to standard output if not specified.')
+    parser.add_argument('--verbose', action='store_true', help='Prints current queries and progress')
     args = parser.parse_args()
 
-    if not args.out:
-        print("Error: Please provide an output file path using --out")
-        return
     if not args.query:
-        print("Error: Please provide an query using --query")
+        if args.verbose:
+            print("Error: Please provide an query using --query")
         return
     results = []
     if is_file(args.query):
         with open(args.query, 'r', encoding='UTF-8') as file:
             for line in file:
-                query_result = get_query_result(line.strip())
+                query_result = get_query_result(line.strip(), args.verbose)
                 results.append(query_result)
     else:
-        query_result = get_query_result(args.query)
+        query_result = get_query_result(args.query, args.verbose)
         results.append(query_result)
 
-    with open(args.out, 'w', encoding='UTF-8') as json_file:
-        json.dump(results, json_file, indent=4, ensure_ascii=False)
-        print("Saved results as json:", args.out)
+    if not args.out:
+        print(results)
+    else:
+        with open(args.out, 'w', encoding='UTF-8') as json_file:
+            json.dump(results, json_file, indent=4, ensure_ascii=False)
+            if args.verbose:
+                print("Saved results as json:", args.out)
 
 if __name__ == "__main__":
     main()
