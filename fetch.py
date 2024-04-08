@@ -3,6 +3,7 @@ import json
 import os
 
 from src import bugs
+from src import utils
 
 bugs.max_delay = 3
 
@@ -13,12 +14,14 @@ def is_file(string):
 def get_query_result(search_query):
     query = search_query.strip()
     print("Querying:", query)
-    return bugs.find_lyrics(query)
+    result = bugs.find_lyrics(query)
+    result['lyrics'] = utils.remove_korean_lines(result['lyrics'])
+    return result
 
 def main():
     parser = argparse.ArgumentParser(description='Fetch lyrics from bugs')
-    parser.add_argument('--query', help='Search query string, or Input file path of search queries')
-    parser.add_argument('--out', help='Output file path', required = True)
+    parser.add_argument('query', help='Search query string, or Input file path of search queries')
+    parser.add_argument('out', help='Output file path')
     args = parser.parse_args()
 
     if not args.out:
