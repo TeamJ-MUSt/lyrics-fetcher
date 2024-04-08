@@ -19,7 +19,7 @@ pip install -r requirements.txt
 usage: `fetch.py [-h] [--out OUT] [--verbose] query`
 
 positional arguments:  
-- `query`: Search query string, or Input file path of search queries.  
+- `query`: Search query string, or Input file path of search queries. Whether it is a file or not is determined by the dot(.).  
 
 optional arguments:  
 - `-h`, `--help`: Show help message  
