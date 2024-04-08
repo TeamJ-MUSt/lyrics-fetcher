@@ -17,10 +17,10 @@ pip install -r requirements.txt
 3. Run `fetch.py` with arguments
 ```
 // Single query
-python fetch.py --query BETELGEUSE --out result.txt
+python fetch.py BETELGEUSE result.txt
 
 // Multiple queries from file
-python fetch.py --query queries.txt --out results.txt
+python fetch.py queries.txt results.txt
 ```
 
 ## About
