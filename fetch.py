@@ -30,6 +30,7 @@ def main():
         if args.verbose:
             print("Error: Please provide an query using --query")
         return
+    bugs.verbose = args.verbose
     results = []
     if is_file(args.query):
         with open(args.query, 'r', encoding='UTF-8') as file:
